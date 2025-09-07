@@ -2,8 +2,11 @@ import "@/styles/globals.css";
 
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
-
+import {NextIntlClientProvider} from 'next-intl';
+import {getMessages} from 'next-intl/server';
 import { TRPCReactProvider } from "@/trpc/react";
+import {routing} from "~/i18n/routing";
+import {type Locale} from "~/types";
 
 export const metadata: Metadata = {
 	title: "Create T3 App",
@@ -17,12 +20,29 @@ const geist = Geist({
 });
 
 export default function RootLayout({
-	children,
+	children, params
+  params: Promise<{ locale: Locale }>
 }: Readonly<{ children: React.ReactNode }>) {
+
+  const { locale } = await params
+  // Ensure that the incoming `locale` is valid
+  if (!routing.locales.includes(locale)) {
+    notFound();
+  }
+
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
+  const session = await getCurrentSession();
+
 	return (
 		<html lang="en" className={`${geist.variable}`}>
 			<body>
-				<TRPCReactProvider>{children}</TRPCReactProvider>
+        <NextIntlClientProvider messages={messages}>
+          <TRPCReactProvider> 
+              {children}
+          </TRPCReactProvider>
+        </NextIntlClientProvider>
 			</body>
 		</html>
 	);

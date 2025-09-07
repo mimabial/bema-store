@@ -1,0 +1,130 @@
+{
+  "header": {
+      "search": "Search...",
+      "flower": "Flower",
+      "foliage": "Foliage",
+      "home": "Home",
+      "products": "Products"
+  },
+  "product": {
+    "specifications": "Specifications",
+    "packages": "Packages",
+    "content": "Content",
+    "total": "Number",
+    "length": "Stem length",
+    "origin": "Origin",
+    "quality": "Category",
+    "recommended": {
+      "recommended": "Recommended",
+      "title": "Our Best Sellers"
+    }
+  },
+  "home": {
+      "hero": {
+      "discount": "Welcome to Bema",
+      "title": "The Sunlight In The Flower Market",
+      "description": "\"Against a dark sky all flowers look like fireworks.\" ― G.K. Chesterton",
+      "shop": "Shop Now"
+    },
+    "trending": {
+      "trending": "Trending",
+      "title": "Our Best Sellers"
+    }
+  },
+  "species": "Species",
+  "cart": "Cart",
+  "wishlist": "Wishlist",
+  "profile": "Profile",
+  "topbar": {
+    "discount": "Get 25% discount on a first purchase.",
+    "careers": "Careers",
+    "help": "Help",
+    "buyer": "Buyer Protection",
+    "download": "Download Mobile App",
+    "phone": "+0125 258 192 502"
+  },
+
+  "auth": {
+    "signup": {
+      "title": "Sign Up",
+      "description": "Create an account to get started",
+      "message": "Already signed up? Login instead.",
+      "google": "Sign up with Google",
+      "button": "Sign Up"
+    },
+    "login": {
+      "title": "Log In",
+      "description": "Log in to your account to makes reservations",
+      "message": "New on Bema? Start here.",
+      "google": "Continue with Google",
+      "button": "Log In"
+    },
+    "email": "Email",
+    "name": "Name",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "cancel": "Cancel"
+
+  },
+  "IndexPage": {
+    "title": "next-intl example",
+    "description": "This is a basic example that demonstrates the usage of <code>next-intl</code> with the Next.js App Router. Try changing the locale in the top right corner and see how the content changes."
+  },
+  "PathnamesPage": {
+    "title": "Pathnames",
+    "description": "<p>The pathnames are internationalized too.</p><p>If you're using the default language English, you'll see <code>/en/pathnames</code> in the browser address bar on this page.</p><p>If you change the locale to German, the URL is localized accordingly (<code>/de/pfadnamen</code>).</p>"
+  },
+  "Error": {
+    "title": "Something went wrong!",
+    "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>"
+  },
+  "NotFoundPage": {
+    "title": "Page not found",
+    "description": "Please double-check the browser address bar or use the navigation to go to a known page."
+  },
+  "LocaleLayout": {
+    "title": "Bema - Bloom with us"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} fr {🇫🇷 Français} other {Unknown}}"
+  },
+  "Navigation": {
+    "home": "Home",
+    "pathnames": "Pathnames"
+  },
+  "PageLayout": {
+    "links": {
+      "docs": {
+        "title": "Docs",
+        "description": "Learn more about next-intl in the official docs.",
+        "href": "https://next-intl-docs.vercel.app/"
+      },
+      "source": {
+        "title": "Source code",
+        "description": "Browse the source code of this example on GitHub.",
+        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router"
+      }
+    }
+  },
+  "footer": {
+    "bema": "We aim to offer a thoughtfully curated collection of high quality flowers.",
+    "policies": "Policies",
+    "about": "About",
+    "policiesLinks": {
+      "termOfUse": "Term of Use",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "copyright": "Copyright © 2024 BEMA Shop",
+    "createdBy": "Created By",
+    "reserved": "All Right Reserved"
+  },
+  "intl": {
+    "language": "Language",
+    "locale": {
+      "en": "English",
+      "fr": "French"
+    }
+  }
+}
+  

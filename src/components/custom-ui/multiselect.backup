@@ -1,0 +1,179 @@
+"use client";
+
+import * as React from "react";
+import {ChevronDown, X} from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import {
+	Command,
+	CommandGroup,
+	CommandItem,
+	CommandList,
+} from "@/components/ui/command";
+import { Command as CommandPrimitive } from "cmdk";
+import {type ColorValues} from "@/forms/schemas";
+import {Button} from "@/components/ui/button";
+import {FC} from "react";
+
+type MultiSelectProps = {
+  options: ColorValues[],
+  placeholder: string,
+  onValueChange: (value: ColorValues[]) => void,
+	defaultValue: ColorValues[],
+  visibles: number,
+}
+
+export function MultiSelect({options, placeholder, onValueChange, defaultValue, visibles}: MultiSelectProps) {
+	const inputRef = React.useRef<HTMLInputElement>(null);
+	const [open, setOpen] = React.useState(false);
+	const [selected, setSelected] = React.useState<ColorValues[]>(defaultValue);
+	const [inputValue, setInputValue] = React.useState("");
+
+	const handleUnselect = React.useCallback((color: ColorValues) => {
+		setSelected((prev) => {
+			const value = prev.filter((s) => s.id !== color.id)
+			onValueChange(value);
+			return value;
+		});
+	}, []);
+	const handleKeyDown = React.useCallback(
+		(e: React.KeyboardEvent<HTMLDivElement>) => {
+			const input = inputRef.current;
+			if (input) {
+				if (e.key === "Delete" || e.key === "Backspace") {
+					if (input.value === "") {
+						setSelected((prev) => {
+							const value = [...prev];
+							value.pop();
+							onValueChange(value);
+							return value;
+						});
+					}
+				}
+				// This is not a default behaviour of the <input /> field
+				if (e.key === "Escape") {
+					input.blur();
+				}
+			}
+		},
+		[]
+	);
+
+	const selectables = options.filter(
+		(color) => !selected.includes(color)
+	);
+
+	const truncated = selected.slice(visibles, selected.length);
+
+	return (
+		<Command
+			onKeyDown={handleKeyDown}
+			className="overflow-visible bg-transparent"
+		>
+			<div
+				className="flex justify-between items-centergroup rounded-md border border-input p-1.5 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+				<div className="flex flex-wrap gap-1 w-full">
+					{selected.slice(0, visibles).map((color) => {
+						return (
+							<Badge key={color.id} variant="secondary" className='rounded-sm'>
+								{color.name}
+								<button
+									className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+									onKeyDown={(e) => {
+										if(e.key === "Enter") {
+											handleUnselect(color);
+										}
+									}}
+									onMouseDown={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+									}}
+									onClick={() => handleUnselect(color)}
+								>
+									<X className="h-3 w-3 text-muted-foreground hover:text-foreground"/>
+								</button>
+							</Badge>
+						);
+					})}
+					{selected.length > visibles && (
+						<Badge variant="secondary" className='rounded-sm'>
+							{`+ ${selected.length - visibles} more`}
+							<button
+								className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+								onKeyDown={(e) => {
+									if(e.key === "Enter") {
+										truncated.forEach((color) => handleUnselect(color));
+									}
+								}}
+								onMouseDown={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
+								}}
+								onClick={() => truncated.forEach((color) => handleUnselect(color))}
+							>
+								<X className="h-3 w-3 text-muted-foreground hover:text-foreground"/>
+							</button>
+						</Badge>
+					)}
+					{/* Avoid having the "Search" Icon */}
+					<CommandPrimitive.Input
+						ref={inputRef}
+						value={inputValue}
+						onValueChange={setInputValue}
+						onBlur={() => setOpen(false)}
+						onClick={() => setOpen(!open)}
+						placeholder={selected.length > 0 ? '' : placeholder}
+						className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
+					/>
+				</div>
+
+					<Button
+						type='button'
+						variant="ghost"
+						size='icon'
+						className="h-8 w-8"
+						onClick={() => {
+							setOpen(!open)
+						}}
+					>
+						<ChevronDown className={`cursor-pointer text-muted-foreground
+						transition-transform duration-200 ${open ? "rotate-180" : ""}`}/>
+					</Button>
+
+			</div>
+			<div className="relative mt-2">
+				<CommandList>
+					{open && selectables.length > 0 ? (
+						<div
+							className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+							<CommandGroup className="h-full overflow-auto">
+								{selectables.map((color) => {
+									return (
+										<CommandItem
+											key={color.id}
+											onMouseDown={(e) => {
+												e.preventDefault();
+												e.stopPropagation();
+											}}
+											onSelect={() => {
+												setInputValue("");
+												setSelected((prev) => {
+													const value = [...prev, color];
+													onValueChange(value);
+													return value;
+												});
+											}}
+											className={"cursor-pointer"}
+										>
+											{color.name}
+										</CommandItem>
+									);
+								})}
+							</CommandGroup>
+						</div>
+					) : null}
+				</CommandList>
+			</div>
+		</Command>
+	);
+}
